@@ -11,7 +11,7 @@ import conf
 import dbwoker
 import pandas as pd
 import requests
-
+import os
 import re
 from selenium import webdriver as wb
 from selenium import webdriver
@@ -19,11 +19,20 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from time import sleep
 
+# Запуск селениум на heroku
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
+
+
 bot = telebot.TeleBot(conf.token)
 
 
 def init_driver():
-    driver = wb.Firefox()
+    #driver = wb.Chrome()
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     driver.get("https://bcs-express.ru")
     driver.implicitly_wait(5)
     return driver
