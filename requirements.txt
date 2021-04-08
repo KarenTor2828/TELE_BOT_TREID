@@ -97,8 +97,6 @@ webencodings
 wheel                        
 widgetsnbextension          
 win-inet-pton              
-wincertstore                 
-xgboost                       
+wincertstore                    
 xmltodict                    
 zipp                          
-webdriver
