@@ -32,8 +32,7 @@ bot = telebot.TeleBot(conf.token)
 def init_driver(tag=0):
     #driver = wb.Chrome()
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    driver.get("https://bcs-express.ru")
-    driver.implicitly_wait(5)
+    #driver.get("https://bcs-express.ru")
     return driver
 
 
@@ -61,8 +60,9 @@ def del_list_variant(message, number):
 def search_firm(firm_input, driver):
     # ищем кнопку поиска в головном меню
     driver.get("https://bcs-express.ru")
+    driver.implicitly_wait(5)
     search_header = driver.find_element_by_class_name("icon-search")
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(1)
     search_header.click()
     # ищем окно ввода запроса
     input_form = driver.find_element_by_name('search')
