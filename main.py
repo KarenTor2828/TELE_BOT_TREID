@@ -60,8 +60,9 @@ def del_list_variant(message, number):
 
 def search_firm(firm_input, driver):
     # ищем кнопку поиска в головном меню
+    driver.get("https://bcs-express.ru")
     search_header = driver.find_element_by_class_name("icon-search")
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(3)
     search_header.click()
     # ищем окно ввода запроса
     input_form = driver.find_element_by_name('search')
