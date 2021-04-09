@@ -32,7 +32,7 @@ bot = telebot.TeleBot(conf.token)
 def init_driver(tag=0):
     #driver = wb.Chrome()
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    #driver.get("https://bcs-express.ru")
+    driver.get("https://bcs-express.ru")
     return driver
 
 
@@ -59,8 +59,8 @@ def del_list_variant(message, number):
 
 def search_firm(firm_input, driver):
     # ищем кнопку поиска в головном меню
-    driver.get("https://bcs-express.ru")
-    sleep(3)
+    #driver.get("https://bcs-express.ru")
+    #sleep(3)
     search_header = driver.find_element_by_class_name("icon-search")
     driver.implicitly_wait(1)
     search_header.click()
@@ -84,6 +84,7 @@ def search_firm(firm_input, driver):
     list_variant = [{row.get('data-index'): row.get_text()} for row in
                     soup.find_all('div', {'class': 'autocomplete-suggestion'})]
     driver.refresh()
+    sleep(3)
     return list_variant, soup.find_all('div', {'class': 'autocomplete-suggestion'})
 
 
