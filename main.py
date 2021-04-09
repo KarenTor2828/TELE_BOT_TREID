@@ -209,7 +209,8 @@ def cmd_search_firm(message):
     else:
         bot.send_message(message.chat.id, "Что-то пошло не так...\n"
                                           "Попробуй еще раз отправить запрос. \n"
-                                          "Описание моих возможностей на /info.\n")
+                                          "Описание моих возможностей на /info.\n"
+                                          "Выбери /reset и ты вернешься в начало поиска по компаниям.\n")
     #close_driver(driver_ch)
 
 
@@ -251,7 +252,7 @@ def cmd_request_news(message):
                              + dbwoker.get_current_property(str(message.chat.id) + dbwoker.get_current_property(str(message.chat.id) + 'firm_id'))[3:]
                              + "\n"
                              + "Осталоь совсем немного!\n"
-                             + "Введите количетсво новостей, которое вы хотите вывести на экран. \n"
+                             + "Введите количество новостей, которое вы хотите вывести на экран. \n"
                              + "Общее количество новостей: " + str(len(get_df)) + "\n")
         else:
             bot.send_message(message.chat.id, "У меня нет новостей по компании: \n"
@@ -284,12 +285,20 @@ def cmd_get_news(message):
                 dbwoker.set_state(message.chat.id, conf.States.S_ENTER_END_NEWS.value)
             else:
                 bot.send_message(message.chat.id, "Вы ввели 0, а так нельзя... \n"
-                                                  "Максимальное количество новостей для вывода - " + str(len(get_df)))
+                                                  "Максимальное количество новостей для вывода - " + str(len(get_df))
+                                                  + "\n"
+                                                  "Для перехода на лист вариантов команий нажмите /list_variant \n"
+                                                  "Если вы хотите выбрать другую компанию нажмите /reset.\n")
         else:
             bot.send_message(message.chat.id, "Вы ввели недопустимое число для вывода новостей \n"
-                                              "Максимальное количество новостей для вывода - " + str(len(get_df)))
+                                              "Максимальное количество новостей для вывода - " + str(len(get_df))
+                                              + "\n"
+                                              "Для перехода на лист вариантов команий нажмите /list_variant \n"
+                                              "Если вы хотите выбрать другую компанию нажмите /reset.\n")
     except:
-        bot.send_message(message.chat.id, "Это не похоже на число.")
+        bot.send_message(message.chat.id, "Это не похоже на число."
+                                          "Для перехода на лист вариантов команий нажмите /list_variant \n"
+                                          "Если вы хотите выбрать другую компанию нажмите /reset.\n")
 
 
 @bot.message_handler(
@@ -303,6 +312,8 @@ def cmd_get_news(message):
                                       + "Увидеть список всех доступных вариантов - /list_variant \n"
                                       + "Начать поиск новостей по текущей выбранной компании /request_news.\n"
                                       + "Если вы хотите выбрать другую компанию нажмите /reset.\n")
+    bot.send_message(message.chat.id, "Для перехода на лист вариантов команий нажмите /list_variant \n"
+                                       "Если вы хотите выбрать другую компанию нажмите /reset.\n")
 
 
 if __name__ == '__main__':
