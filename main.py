@@ -190,7 +190,7 @@ def cmd_search_firm(message):
     list_firm, soup_file = search_firm(message.text.lower().strip(), driver_bot)
     if list_firm == list():
         bot.send_message(message.chat.id, "Извини, я не знаю такую фирму.Попробуй еще раз.\n"
-                                          "Попробуй ввести нажвание с заглавной буквы - иногда помогает :) \n"
+                                          "Попробуй ввести название компании с заглавной буквы - иногда помогает :) \n"
                                           "Если вы хотите выбрать другую компанию нажмите /reset.\n")
     elif list_firm != list():
         list_firms = [str(index) + str(': ') + str(element.get(str(index))) for index, element in
