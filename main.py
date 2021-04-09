@@ -26,18 +26,18 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
 
-driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
 bot = telebot.TeleBot(conf.token)
 
 
-#def init_driver():
-#    #driver = wb.Chrome()
-#    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-#    driver.get("https://bcs-express.ru")
-#    driver.implicitly_wait(5)
-#    return driver
+def init_driver(tag=0):
+    #driver = wb.Chrome()
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver.get("https://bcs-express.ru")
+    driver.implicitly_wait(5)
+    return driver
 
+
+driver_bot = init_driver()
 
 #def close_driver(driver):
 #    driver.close()
@@ -83,6 +83,7 @@ def search_firm(firm_input, driver):
     soup = BeautifulSoup(page_search, 'lxml')
     list_variant = [{row.get('data-index'): row.get_text()} for row in
                     soup.find_all('div', {'class': 'autocomplete-suggestion'})]
+    driver.refresh()
     return list_variant, soup.find_all('div', {'class': 'autocomplete-suggestion'})
 
 
@@ -186,7 +187,7 @@ def cmd_commands(message):
                                           ('/reset', '/info', '/start', '/commands', '/request_news'))
 def cmd_search_firm(message):
     bot.send_message(message.chat.id, "Запрашиваю информацию у сервера....\n")
-    list_firm, soup_file = search_firm(message.text.lower().strip(), driver)
+    list_firm, soup_file = search_firm(message.text.lower().strip(), driver_bot)
     if list_firm == list():
         bot.send_message(message.chat.id, "Извини, я не знаю такую фирму.Попробуй еще раз.")
     elif list_firm != list():
