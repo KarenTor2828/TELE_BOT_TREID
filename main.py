@@ -26,20 +26,21 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
 
+driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 bot = telebot.TeleBot(conf.token)
 
 
-def init_driver():
-    #driver = wb.Chrome()
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    driver.get("https://bcs-express.ru")
-    driver.implicitly_wait(5)
-    return driver
+#def init_driver():
+#    #driver = wb.Chrome()
+#    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+#    driver.get("https://bcs-express.ru")
+#    driver.implicitly_wait(5)
+#    return driver
 
 
-def close_driver(driver):
-    driver.close()
+#def close_driver(driver):
+#    driver.close()
 
 
 def get_list_variant(message, number):
@@ -64,6 +65,8 @@ def search_firm(firm_input, driver):
     search_header.click()
     # ищем окно ввода запроса
     input_form = driver.find_element_by_name('search')
+    # добавил очищение 09042021
+    input_form.clear()
     driver.implicitly_wait(1)
     # отправляем запрос
     input_form.send_keys(firm_input)
@@ -182,8 +185,7 @@ def cmd_commands(message):
                                           ('/reset', '/info', '/start', '/commands', '/request_news'))
 def cmd_search_firm(message):
     bot.send_message(message.chat.id, "Запрашиваю информацию у сервера....\n")
-    driver_ch = init_driver()
-    list_firm, soup_file = search_firm(message.text.lower().strip(), driver_ch)
+    list_firm, soup_file = search_firm(message.text.lower().strip(), driver)
     if list_firm == list():
         bot.send_message(message.chat.id, "Извини, я не знаю такую фирму.Попробуй еще раз.")
     elif list_firm != list():
@@ -206,7 +208,7 @@ def cmd_search_firm(message):
         bot.send_message(message.chat.id, "Что-то пошло не так...\n"
                                           "Попробуй еще раз отправить запрос. \n"
                                           "Описание моих возможностей на /info.\n")
-    close_driver(driver_ch)
+    #close_driver(driver_ch)
 
 
 @bot.message_handler(
