@@ -58,15 +58,6 @@ def del_list_variant(message, number):
 
 
 def search_firm(firm_input, driver):
-    # костыль для пробуждения селениум на heroku
-    driver.get("https://bcs-express.ru")
-    sleep(3)
-    # костыль для пробуждения селениум на heroku
-    driver.get("https://bcs-express.ru")
-    sleep(3)
-    # костыль для пробуждения селениум на heroku
-    driver.get("https://bcs-express.ru")
-    sleep(4)
     search_header = driver.find_element_by_class_name("icon-search")
     driver.implicitly_wait(1)
     search_header.click()
@@ -90,8 +81,7 @@ def search_firm(firm_input, driver):
     list_variant = [{row.get('data-index'): row.get_text()} for row in
                     soup.find_all('div', {'class': 'autocomplete-suggestion'})]
     driver.get("https://bcs-express.ru")
-    sleep(3)
-    return list_variant, soup.find_all('div', {'class': 'autocomplete-suggestion'})
+    return list_variant
 
 
 def search_news(message, number_firm):
@@ -194,7 +184,13 @@ def cmd_commands(message):
                                           ('/reset', '/info', '/start', '/commands', '/request_news'))
 def cmd_search_firm(message):
     bot.send_message(message.chat.id, "Запрашиваю информацию у сервера....\n")
-    list_firm, soup_file = search_firm(message.text.lower().strip(), driver_bot)
+    list_firm  = search_firm(message.text.lower().strip(), driver_bot)
+    sleep(5)
+    if list_firm == list():
+        bot.send_message(message.chat.id, "Мне нужно еще немного времени...\n")
+        list_firm = search_firm(message.text.lower().strip(), driver_bot)
+    else:
+        pass
     if list_firm == list():
         bot.send_message(message.chat.id, "Извини, я не знаю такую фирму.Попробуй еще раз.\n"
                                           "Попробуй ввести название компании с заглавной буквы - иногда помогает :) \n"
