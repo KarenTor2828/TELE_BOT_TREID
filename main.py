@@ -33,6 +33,7 @@ def init_driver():
     #driver = wb.Chrome()
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     driver.get("https://bcs-express.ru")
+    sleep(3)
     return driver
 
 
@@ -188,6 +189,7 @@ def cmd_search_firm(message):
     sleep(5)
     if list_firm == list():
         bot.send_message(message.chat.id, "Мне нужно еще немного времени...\n")
+        sleep(10)
         list_firm = search_firm(message.text.lower().strip(), driver_bot)
     else:
         pass
