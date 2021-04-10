@@ -29,7 +29,7 @@ chrome_options.add_argument("--no-sandbox")
 bot = telebot.TeleBot(conf.token)
 
 
-def init_driver(tag=0):
+def init_driver():
     #driver = wb.Chrome()
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     driver.get("https://bcs-express.ru")
