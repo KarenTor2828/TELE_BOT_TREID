@@ -83,7 +83,7 @@ def search_firm(firm_input, driver):
     soup = BeautifulSoup(page_search, 'lxml')
     list_variant = [{row.get('data-index'): row.get_text()} for row in
                     soup.find_all('div', {'class': 'autocomplete-suggestion'})]
-    driver.refresh()
+    driver.get("https://bcs-express.ru")
     sleep(3)
     return list_variant, soup.find_all('div', {'class': 'autocomplete-suggestion'})
 
@@ -285,6 +285,8 @@ def cmd_get_news(message):
                                                       "Заголовок новости: \n" + str(get_df.iloc[row][1]) + "\n"
                                                       "Кратное описание: \n" + str(get_df.iloc[row][2]) + "\n"
                                                       "Ссылка на новость: \n" + str(get_df.iloc[row][3]) + "\n")
+                bot.send_message(message.chat.id, "Для перехода на лист вариантов компаний нажмите /list_variant \n"
+                                                  "Если вы хотите выбрать другую компанию нажмите /reset.\n")
                 dbwoker.set_state(message.chat.id, conf.States.S_ENTER_END_NEWS.value)
             else:
                 bot.send_message(message.chat.id, "Вы ввели 0, а так нельзя... \n"
@@ -315,8 +317,6 @@ def cmd_get_news(message):
                                       + "Увидеть список всех доступных вариантов - /list_variant \n"
                                       + "Начать поиск новостей по текущей выбранной компании /request_news.\n"
                                       + "Если вы хотите выбрать другую компанию нажмите /reset.\n")
-    bot.send_message(message.chat.id, "Для перехода на лист вариантов команий нажмите /list_variant \n"
-                                       "Если вы хотите выбрать другую компанию нажмите /reset.\n")
 
 
 if __name__ == '__main__':
