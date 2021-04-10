@@ -58,9 +58,15 @@ def del_list_variant(message, number):
 
 
 def search_firm(firm_input, driver):
-    # ищем кнопку поиска в головном меню
-    #driver.get("https://bcs-express.ru")
-    #sleep(3)
+    # костыль для пробуждения селениум на heroku
+    driver.get("https://bcs-express.ru")
+    sleep(3)
+    # костыль для пробуждения селениум на heroku
+    driver.get("https://bcs-express.ru")
+    sleep(3)
+    # костыль для пробуждения селениум на heroku
+    driver.get("https://bcs-express.ru")
+    sleep(4)
     search_header = driver.find_element_by_class_name("icon-search")
     driver.implicitly_wait(1)
     search_header.click()
