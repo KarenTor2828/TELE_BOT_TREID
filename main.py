@@ -1,4 +1,4 @@
-# This is a sample Python script.
+﻿# This is a sample Python script.
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
@@ -33,7 +33,6 @@ def init_driver():
     #driver = wb.Chrome()
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     driver.get("https://bcs-express.ru")
-    sleep(3)
     return driver
 
 
@@ -59,6 +58,7 @@ def del_list_variant(message, number):
 
 
 def search_firm(firm_input, driver):
+    driver.get("https://bcs-express.ru")
     search_header = driver.find_element_by_class_name("icon-search")
     driver.implicitly_wait(1)
     search_header.click()
@@ -186,11 +186,13 @@ def cmd_commands(message):
 def cmd_search_firm(message):
     bot.send_message(message.chat.id, "Запрашиваю информацию у сервера....\n")
     driver_bot = init_driver()
-    sleep(10)
+    driver_bot.get("https://bcs-express.ru")
+    sleep(3)
     list_firm = search_firm(message.text.lower().strip(), driver_bot)
     if list_firm == list():
+        driver_bot.get("https://bcs-express.ru")
         bot.send_message(message.chat.id, "Мне нужно еще немного времени...\n")
-        sleep(10)
+        sleep(5)
         list_firm = search_firm(message.text.lower().strip(), driver_bot)
     else:
         pass
