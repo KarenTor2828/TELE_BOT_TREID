@@ -37,10 +37,10 @@ def init_driver():
     return driver
 
 
-driver_bot = init_driver()
+#driver_bot = init_driver()
 
-#def close_driver(driver):
-#    driver.close()
+def close_driver(driver):
+    driver.close()
 
 
 def get_list_variant(message, number):
@@ -185,8 +185,10 @@ def cmd_commands(message):
                                           ('/reset', '/info', '/start', '/commands', '/request_news'))
 def cmd_search_firm(message):
     bot.send_message(message.chat.id, "Запрашиваю информацию у сервера....\n")
-    list_firm  = search_firm(message.text.lower().strip(), driver_bot)
-    sleep(5)
+    driver_bot = init_driver()
+    print(driver_bot.page_source)
+    sleep(10)
+    list_firm = search_firm(message.text.lower().strip(), driver_bot)
     if list_firm == list():
         bot.send_message(message.chat.id, "Мне нужно еще немного времени...\n")
         sleep(10)
@@ -218,7 +220,7 @@ def cmd_search_firm(message):
                                           "Попробуй еще раз отправить запрос. \n"
                                           "Описание моих возможностей на /info.\n"
                                           "Выбери /reset и ты вернешься в начало поиска по компаниям.\n")
-    #close_driver(driver_ch)
+    close_driver(driver_bot)
 
 
 @bot.message_handler(
