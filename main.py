@@ -78,7 +78,6 @@ def search_firm(firm_input, driver):
     input_form.clear()
     input_form.send_keys(firm_input)
     page_search = driver.page_source
-    print(driver.page_source)
     soup = BeautifulSoup(page_search, 'lxml')
     list_variant = [{row.get('data-index'): row.get_text()} for row in
                     soup.find_all('div', {'class': 'autocomplete-suggestion'})]
