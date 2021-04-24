@@ -78,6 +78,7 @@ def search_firm(firm_input, driver):
     input_form.clear()
     input_form.send_keys(firm_input)
     page_search = driver.page_source
+    print(driver.page_source)
     soup = BeautifulSoup(page_search, 'lxml')
     list_variant = [{row.get('data-index'): row.get_text()} for row in
                     soup.find_all('div', {'class': 'autocomplete-suggestion'})]
@@ -186,7 +187,6 @@ def cmd_commands(message):
 def cmd_search_firm(message):
     bot.send_message(message.chat.id, "Запрашиваю информацию у сервера....\n")
     driver_bot = init_driver()
-    print(driver_bot.page_source)
     sleep(10)
     list_firm = search_firm(message.text.lower().strip(), driver_bot)
     if list_firm == list():
