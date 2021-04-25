@@ -77,6 +77,7 @@ def search_firm(firm_input, driver):
     search_header.click()
     input_form.clear()
     input_form.send_keys(firm_input)
+    driver.implicitly_wait(3)
     page_search = driver.page_source
     soup = BeautifulSoup(page_search, 'lxml')
     list_variant = [{row.get('data-index'): row.get_text()} for row in
